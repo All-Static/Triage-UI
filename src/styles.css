@@ -468,6 +468,9 @@ main {
 .secondary:hover {
   background: #e7f0ff;
 }
+.workspace-menu-toggle {
+  display: none;
+}
 .result-heading {
   display: flex;
   align-items: center;
@@ -1318,10 +1321,21 @@ dd {
   }
 }
 @media (max-width: 640px) {
+  .workspace-menu-toggle {
+    display: inline-flex;
+    position: fixed;
+    top: 12px;
+    right: 18px;
+    z-index: 30;
+  }
+  .app main {
+    padding-top: 76px;
+  }
   .sidebar {
     display: none;
     width: 234px;
-    top: 64px;
+    top: 0;
+    padding-top: 76px;
   }
   .sidebar.open {
     display: flex;
