@@ -1,0 +1,29 @@
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Local Python configuration (including Jenkins credentials)
+config.yml
+
+# Local environment and editor files
+.env
+.env.*
+!.env.example
+.vscode/
+
+# Python environments, caches and local integration output
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+config.yaml
+credentials.*
+secrets.*
+*.pem
+*.key
+backend/data/
+backend/output/
+backend/config.*
+backend/tokens.*
+
