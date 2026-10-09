@@ -1,8 +1,8 @@
-// this is what the backend api needs to work with
-// backend keeps each jobs python configuration as username url token
-// ids are just for the api grab job names from the urls instead of saving extra yaml fields
-// no build numbers belong in that file the python tool still receives username url token
-// the backend needs to catch duplicate urls and leave the other saved jobs alone
+// this is what the backend api needs to work with.
+// backend keeps each jobs python configuration as { username, url, token }.
+// ids are just for the api. grab job names from the urls instead of saving extra yaml fields.
+// no build numbers belong in that file. the python tool still receives username, url, token.
+// the backend needs to catch duplicate urls and leave the other saved jobs alone.
 export interface JenkinsConfiguration { id: string; name: string; username: string; url: string; }
 export interface ConfigurationInput { username: string; url: string; token?: string; }
 
@@ -10,29 +10,29 @@ export function normalizeJobUrl(value: string): string {
   const url = new URL(value.trim());
   if (!['http:', 'https:'].includes(url.protocol) || !url.hostname || url.username || url.password || url.search || url.hash)
     throw new Error('Enter an HTTP/HTTPS job URL without credentials, query parameters, or a fragment.');
-  // keep just one slash at the end and check that this points to a job not a build
+  // keep just one slash at the end and check that this points to a job, not a build.
   url.pathname = url.pathname.replace(/\/+$/, '') + '/';
   if (!/\/job\/[^/]+\/$/.test(url.pathname))
     throw new Error('Enter the Jenkins job URL ending in /job/job-name/, without a build number.');
-  // clean up encoded names so the same url cant sneak in twice
+  // clean up encoded names so the same url can’t sneak in twice.
   try {
     url.pathname = url.pathname.split('/').map(segment => encodeURIComponent(decodeURIComponent(segment))).join('/');
   } catch { throw new Error('The job URL contains invalid URL encoding.'); }
   return url.toString();
 }
 
-// nested jobs still end in job name decode that last name so the labels look right
+// nested jobs still end in /job/name. decode that last name so the labels look right.
 export function getJobName(value: string): string {
   const pathname = new URL(normalizeJobUrl(value)).pathname;
   const match = pathname.match(/\/job\/([^/]+)\/$/);
   return decodeURIComponent(match![1]);
 }
 
-// keep errors simple so the backend doesnt accidentally spill the token
+// keep errors simple so the backend doesn’t accidentally spill the token.
 export async function apiRequest(endpoint: string, options?: RequestInit): Promise<unknown> {
   try {
     const response = await fetch(endpoint, { ...options, cache: 'no-store' });
-    // vite might send back an html page if the api is missing thats not a real save
+    // vite might send back an html page if the api is missing. that’s not a real save.
     if (!response.ok || !response.headers.get('content-type')?.includes('application/json')) throw new Error();
     return await response.json();
   } catch {
