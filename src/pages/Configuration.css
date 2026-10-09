@@ -1,0 +1,12 @@
+/* keep the form looking like the rest of the app */
+.configuration-form { display: grid; gap: 20px; max-width: 680px; }
+.configuration-panel .field .error { margin-top: 0; color: #c52d37; }
+.configuration-token { display: flex; gap: 10px; }
+.configuration-token input { min-width: 0; flex: 1; }
+.configuration-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.configuration-success { background: #e4f7ed; color: #116b42; border-radius: 6px; padding: 12px; font-size: 12px; line-height: 1.65; }
+/* let the token button wrap so things still fit on smaller screens */
+@media (max-width: 480px) { .configuration-token { flex-wrap: wrap; } .configuration-token input { flex-basis: 100%; } }
+
+.configuration-list { list-style: none; padding: 0; margin: 20px 0; }
+.configuration-list li { display: grid; gap: 12px; padding: 16px 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere; }
